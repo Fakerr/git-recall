@@ -6,8 +6,9 @@ usage() {
   cat <<EOF
   Usage: git log [options]
   Options:
-    -d, --date              Number of days.
+    -d, --date              Show logs for last n days.
     -a, --author            Author name.
+    -f, --fetch             fetch commits.
     -h, --help              This message.
     --                      End of options.
 EOF
