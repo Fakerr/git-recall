@@ -1,0 +1,24 @@
+{
+  "name": "log-so-handy",
+  "version": "1.0.0",
+  "description": "Convenient log for git",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fakerr/log-so-handy.git"
+  },
+  "bin": {
+    "git-hlog": "./git-hlog"
+  },
+  "keywords": [
+    "git",
+    "log",
+    "cli"
+  ],
+  "author": "Walid Berrahal",
+  "license": "MIT",
+  "homepage": "https://github.com/Fakerr/log-so-handy"
+}
