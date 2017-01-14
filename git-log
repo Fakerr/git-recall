@@ -96,7 +96,7 @@ elif [[ $AUTHOR = "all" ]]; then
 fi
 
 # Fetch changes before.
-if [[ $FETCH = true ]]; then
+if [[ $FETCH == true ]]; then
     echo "${GREEN}Fetching changes...${NORMAL}"
     git fetch --all &> /dev/null
     tput cuu1
