@@ -1,6 +1,6 @@
 {
   "name": "log-so-handy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Convenient log for git",
   "main": "",
   "scripts": {
