@@ -246,6 +246,7 @@ do
 
 done
 
+rm $HOME/.lsh_less_keys_tmp # remove temporary less keybindings
 tput cnorm # unhide cursor
 echo "$NORMAL" # normal colors
 
