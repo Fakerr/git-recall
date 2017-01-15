@@ -24,7 +24,7 @@ $ git hlog   [-a <author name>]
 Once the commits are displayed, you can use the `arrow keys` to switch between commits,
 press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
-Note that when the commit's diff is too long, the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program. In this case,
+**Note** that when the commit's diff is too long, the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program. In this case,
 you need to press `q` to return to the commit list.
 
 ## Examples
@@ -73,6 +73,10 @@ $ git clone https://github.com/Fakerr/log-so-handy.git
 $ cd log-so-handy
 $ sudo make install
 ```
+
+## Contribution
+Pull requests are welcome, along with any feedback or ideas.
+
 
 ## License
 
