@@ -130,6 +130,9 @@ ad="`echo -e '\e[B'`" # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
+# Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
+echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- -
+
 ## Get commit's diff.
 function get_diff() {
     ELT="$(echo "${COMMITS[$CP-1]}" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
@@ -145,7 +148,7 @@ function print_diff() {
     get_diff
 
     if [[ $(( TN + DIFF_LINES_NUMBER )) -ge $(( `tput lines` - 1 )) ]]; then
-	echo -e "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r
+	echo -e "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
     else 
 	stop=false
 	tput ed
