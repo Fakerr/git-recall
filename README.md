@@ -1,5 +1,6 @@
 # log-so-handy
-A convenient tool to easily jump between commits diff.
+> A convenient tool to easily jump between commits diff.
+
 
 ![git hlog](http://imgur.com/bq9kRez.gif)
 
