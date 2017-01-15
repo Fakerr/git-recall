@@ -74,6 +74,8 @@ $ git clone https://github.com/Fakerr/log-so-handy.git
 $ cd log-so-handy
 $ sudo make install
 ```
+## Requirements
+- Linux or OSX
 
 ## Contribution
 Pull requests are welcome, along with any feedback or ideas.
