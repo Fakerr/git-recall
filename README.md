@@ -22,7 +22,7 @@ $ git hlog   [-a <author name>]
 
 ##### How to use:
 
-Once the commits are displayed, you can use the `arrow keys` to switch between commits,
+Once the commits are displayed, you can use the `arrow keys` or `j/k` to switch between commits,
 press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
 ##### Limitaions:
