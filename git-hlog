@@ -126,7 +126,9 @@ TN=$(( $NI < $((SN -1)) ? $NI : $((SN -1)))) # Number of lines that we will disp
 
 # Set keys.
 au="`echo -e '\e[A'`" # arrow up
+au_1="k" # arrow up
 ad="`echo -e '\e[B'`" # arrow down
+ad_1="j" # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
@@ -211,7 +213,7 @@ do
 
    case "$key" in
 
-      "$au")
+      "$au" | "$au_1")
          CP=$(( CP - 1 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
@@ -220,7 +222,7 @@ do
          [[ $SI != 1 ]] && tput ed # clear screen
          ;;
 
-      "$ad")
+      "$ad" | "$ad_1")
 	 CP=$(( CP + 1 ))
          [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1 
          [[ $CP == $(( SN + SI - 1)) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
