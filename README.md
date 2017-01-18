@@ -27,7 +27,7 @@ press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
 ##### Limitaions:
 
-when the number of lines between the commits list and a commit's diff is higher than the number of lines of the current terminal session,
+when the number of lines between the commits list and a commit's diff is higher than the current terminal session's number of lines,
 the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program which will open the diff in a separate screen.
 You can still use either `TAB` or `q` to return to the commits list.
 
