@@ -1,5 +1,5 @@
 # log-so-handy
-> A convenient tool to easily go through your git logs.
+> A simple and convenient Git tool to easily check your commits.
 
 
 ![git hlog](http://imgur.com/bq9kRez.gif)
