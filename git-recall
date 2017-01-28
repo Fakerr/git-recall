@@ -4,7 +4,7 @@
 # usage info
 usage() {
   cat <<EOF
-  Usage: git log [options]
+  Usage: git recall [options]
   Options:
     -d, --date              Show logs for last n days.
     -a, --author            Author name.
