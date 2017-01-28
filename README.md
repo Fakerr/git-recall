@@ -1,6 +1,5 @@
 # git-recall
-> A simple and convenient Git tool to easily check your commits.
-
+> Simple and handy tool to easily recall what you've done
 
 ![git recall](http://imgur.com/bq9kRez.gif)
 
