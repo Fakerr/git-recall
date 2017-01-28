@@ -1,16 +1,16 @@
-# log-so-handy
+# git-recall
 > A simple and convenient Git tool to easily check your commits.
 
 
-![git hlog](http://imgur.com/bq9kRez.gif)
+![git recall](http://imgur.com/bq9kRez.gif)
 
 ## Usage
 
 ```sh
-$ git hlog   [-a <author name>] 
-             [-d <days-ago>]
-             [-f]
-             [-h]
+$ git recall   [-a <author name>] 
+	           [-d <days-ago>]
+               [-f]
+               [-h]
 ```
 
 ##### Options description:
@@ -34,23 +34,23 @@ You can still use either `TAB` or `q` to return to the commits list.
 ## Examples
 
 ```sh
-$ git hlog
+$ git recall
 # By default (without options), the command will display commits from yesterday and
 # for the current user.
 ```
 
 
 ```sh
-$ git hlog -d 5 -a "Doge"
+$ git recall -d 5 -a "Doge"
 # The command will show all Doge's commits from 5 days ago.
 
-$ git hlog -d 5 -a "all"
+$ git recall -d 5 -a "all"
 # The command will show commits of all contributors from 5 days ago.
 ```
 
 
 ```sh
-$ git hlog -f
+$ git recall -f
 # Fetch commits beforehand.
 ```
 
@@ -59,7 +59,7 @@ $ git hlog -f
 ##### Without using tools
 
 ```
-You can install it by simply copying the `git-hlog` script into any existing path
+You can install it by simply copying the `git-recall` script into any existing path
 (e.g. /usr/local/bin) or create your own directory and add it to the 'PATH' variable.
 ```
 
@@ -67,14 +67,14 @@ You can install it by simply copying the `git-hlog` script into any existing pat
 Use `npm` to install the project.
 
 ```sh
-npm install --global log-so-handy
+npm install --global git-recall
 ```
 ##### Manual install
 Clone the project and install it using make install.
 
 ```sh
-$ git clone https://github.com/Fakerr/log-so-handy.git
-$ cd log-so-handy
+$ git clone https://github.com/Fakerr/git-recall.git
+$ cd git-recall
 $ sudo make install
 ```
 ## Requirements
