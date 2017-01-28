@@ -133,7 +133,7 @@ ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
-echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- -
+echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
 
 ## Get commit's diff.
 function get_diff() {
