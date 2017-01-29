@@ -2,7 +2,7 @@
 
 > Simple and handy tool to easily recall what you've done
 
-![git recall](http://imgur.com/bq9kRez.gif)
+![git recall](http://imgur.com/zuw2LqW.gif)
 
 ## Purpose
 
@@ -32,7 +32,7 @@ $ git recall   [-a <author name>]
 Once the commits are displayed, you can use either the `arrow keys` or `j/k` to switch between commits,
 press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
-##### Limitaions:
+##### Limitations:
 
 when the number of lines between the commits list and a commit's diff is higher than the current terminal session's number of lines,
 the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program which will open the diff in a separate screen.
