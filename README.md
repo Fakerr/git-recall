@@ -1,12 +1,12 @@
 # git-recall
-> Simple and handy tool to easily recall what you've done
 
 ![git recall](http://imgur.com/bq9kRez.gif)
 
 ## Purpose
+
 `git-recall` is a simple tool that allows you to easily go through your commits and
 check what you or other contributors in your team did. It doesn't aim to be a replacement for the 
-`git log` command, but just to be a handy way to recall your work from your terminal.
+`git log` command, but just to be a handy way to recall what you've done from your terminal.
 
 
 ## Usage
