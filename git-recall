@@ -128,7 +128,13 @@ SN=$(( `tput lines` - 1 )) # Screen number of lines.
 TN=$(( $NI < $((SN -1)) ? $NI : $((SN -1)))) # Number of lines that we will display.
 
 # If there is no items, exit.
-[[ $NI = 0 ]] && echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
+if [[ $NI = 0 ]]; then
+    if [[ $AUTHOR = ".*" ]]; then
+	echo "${YELLOW}All contributors did nothing during this period.${NORMAL}" && exit 0
+    else
+	echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
+    fi
+fi
 
 # Set keys.
 au="`echo -e '\e[A'`" # arrow up
