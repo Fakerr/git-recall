@@ -22,7 +22,7 @@ FETCH=false
 GIT_FORMAT=""
 GIT_LOG=""
 COMMITS=""
-VERSION="1.1.0"
+VERSION="1.1.1"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]]; then
