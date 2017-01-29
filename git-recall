@@ -89,6 +89,12 @@ else
   uncolored
 fi
 
+# Check if lesskey is correctly installed.
+if ! which lesskey &>/dev/null; then
+  echo "abort: the program lesskey is not installed. Make sure to install it before running git-recall" 1>&2
+  exit 1
+fi
+
 # Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
 if [[ ! -n $AUTHOR ]]; then
     AUTHOR=$(git config user.name 2>/dev/null)
