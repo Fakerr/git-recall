@@ -1,5 +1,7 @@
 # git-recall
 
+> Simple and handy tool to easily recall what you've done
+
 ![git recall](http://imgur.com/bq9kRez.gif)
 
 ## Purpose
