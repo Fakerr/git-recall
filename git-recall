@@ -25,7 +25,7 @@ COMMITS=""
 VERSION="1.1.1"
 
 # Are we in a git repo?
-if [[ ! -d ".git" ]]; then
+if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
   echo "abort: not a git repository." 1>&2
   exit 1
 fi
