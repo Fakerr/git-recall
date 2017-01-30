@@ -1,7 +1,7 @@
 PREFIX = /usr/local
 BINPREFIX = "$(PREFIX)/bin"
 
-LIB=git-hlog
+LIB=git-recall
 
 .PHONY: all install uninstall
 

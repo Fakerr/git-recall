@@ -1,53 +1,63 @@
-# log-so-handy
-> A convenient tool to easily jump between commits diff.
+# git-recall
 
+> Simple and handy tool to easily recall what you've done
 
-![git hlog](http://imgur.com/bq9kRez.gif)
+![git recall](http://imgur.com/zuw2LqW.gif)
+
+## Purpose
+
+`git-recall` is a simple tool that allows you to easily go through your commits and
+check what you or other contributors in your team did. It doesn't aim to be a replacement for the 
+`git log` command, but just to be a handy way to recall what you've done from your terminal.
+
 
 ## Usage
 
 ```sh
-$ git hlog   [-a <author name>] 
-             [-d <days-ago>]
-             [-f]
-             [-h]
+$ git recall   [-a <author name>] 
+	           [-d <days-ago>]
+               [-f]
+               [-h]
 ```
 
 ##### Options description:
 
-- `-a`      - Restrict search for a specific user
+- `-a`      - Restrict search for a specific user (use -a "all" for all users)
 - `-d`      - Display commits for the last n days
 - `-f`      - Fetch the latest changes
 - `-h`      - Show help screen
 
 ##### How to use:
 
-Once the commits are displayed, you can use the `arrow keys` to switch between commits,
+Once the commits are displayed, you can use either the `arrow keys` or `j/k` to switch between commits,
 press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
-**Note** that when the commit's diff is too long, the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program. You can use either
-`TAB` or `q` to return to the commits list.
+##### Limitations:
+
+when the number of lines between the commits list and a commit's diff is higher than the current terminal session's number of lines,
+the result will be displayed using the [`less`](http://www.tutorialspoint.com/unix_commands/less.htm) program which will open the diff in a separate screen.
+You can still use either `TAB` or `q` to return to the commits list.
 
 ## Examples
 
 ```sh
-$ git hlog
+$ git recall
 # By default (without options), the command will display commits from yesterday and
 # for the current user.
 ```
 
 
 ```sh
-$ git hlog -d 5 -a "Doge"
+$ git recall -d 5 -a "Doge"
 # The command will show all Doge's commits from 5 days ago.
 
-$ git hlog -d 5 -a "all"
+$ git recall -d 5 -a "all"
 # The command will show commits of all contributors from 5 days ago.
 ```
 
 
 ```sh
-$ git hlog -f
+$ git recall -f
 # Fetch commits beforehand.
 ```
 
@@ -56,7 +66,7 @@ $ git hlog -f
 ##### Without using tools
 
 ```
-You can install it by simply copying the `git-hlog` script into any existing path
+You can install it by simply copying the `git-recall` script into any existing path
 (e.g. /usr/local/bin) or create your own directory and add it to the 'PATH' variable.
 ```
 
@@ -64,14 +74,14 @@ You can install it by simply copying the `git-hlog` script into any existing pat
 Use `npm` to install the project.
 
 ```sh
-npm install --global log-so-handy
+npm install --global git-recall
 ```
 ##### Manual install
 Clone the project and install it using make install.
 
 ```sh
-$ git clone https://github.com/Fakerr/log-so-handy.git
-$ cd log-so-handy
+$ git clone https://github.com/Fakerr/git-recall.git
+$ cd git-recall
 $ sudo make install
 ```
 ## Requirements

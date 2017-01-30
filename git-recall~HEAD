@@ -4,7 +4,7 @@
 # usage info
 usage() {
   cat <<EOF
-  Usage: git log [options]
+  Usage: git recall [options]
   Options:
     -d, --date              Show logs for last n days.
     -a, --author            Author name.
@@ -22,7 +22,7 @@ FETCH=false
 GIT_FORMAT=""
 GIT_LOG=""
 COMMITS=""
-VERSION="1.0.3"
+VERSION="1.1.1"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]]; then
@@ -89,6 +89,12 @@ else
   uncolored
 fi
 
+# Check if lesskey is correctly installed.
+if ! which lesskey &>/dev/null; then
+  echo "abort: the program lesskey is not installed. Make sure to install it before running git-recall" 1>&2
+  exit 1
+fi
+
 # Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
 if [[ ! -n $AUTHOR ]]; then
     AUTHOR=$(git config user.name 2>/dev/null)
@@ -118,20 +124,39 @@ COMMITS=($(eval ${GIT_LOG} 2>/dev/null))
 unset IFS
 
 NI=${#COMMITS[@]} # Total number of items.
-SN=$(( `tput lines` - 1 )) # Screen number of lines.
+SN=$(( `tput lines` - 1 )) # Screen's number of lines.
+CN=$(tput cols) # Screen's number of columns.
 TN=$(( $NI < $((SN -1)) ? $NI : $((SN -1)))) # Number of lines that we will display.
+OFFSET=0
+
+# Add +1 to OFFSET if a commit's length is bigger than the current terminal session's width. (This is to fix a redraw issue)
+for C in "${COMMITS[@]}"
+do
+    ELT="$(echo "$C" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
+    if [[ ${#ELT} -gt $CN ]]; then
+	OFFSET=$(( OFFSET + 1 ))
+    fi
+done
 
 # If there is no items, exit.
-[[ $NI = 0 ]] && echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
+if [[ $NI = 0 ]]; then
+    if [[ $AUTHOR = ".*" ]]; then
+	echo "${YELLOW}All contributors did nothing during this period.${NORMAL}" && exit 0
+    else
+	echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
+    fi
+fi
 
 # Set keys.
 au="`echo -e '\e[A'`" # arrow up
+au_1="k"              # arrow up
 ad="`echo -e '\e[B'`" # arrow down
+ad_1="j"              # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
-echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- -
+echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
 
 ## Get commit's diff.
 function get_diff() {
@@ -156,7 +181,6 @@ function print_diff() {
 	do
 	    echo -n "$NORMAL"
 	    [[ $CP == $i ]] && echo -n "$REVERSE"
-	    
 	    echo "${COMMITS[$i - 1]}"
 	
 	    if [[ $CP == $i ]]; then
@@ -177,7 +201,7 @@ function print_diff() {
 		    ;;
 	    esac
 	done
-	[[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER )) && tput ed
+	[[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER + OFFSET )) && tput ed
 	[[ $END = true ]] && tput cuu 1
     fi
 }
@@ -194,11 +218,10 @@ END=false # end while loop
 while ! $END
 do
 
-   for i in `seq $SI $(( $TN + $SI -1 ))`
+   for i in `seq $SI $(( $TN - $OFFSET + $SI -1 ))`
    do
       echo -n "$NORMAL"
       [[ $CP == $i ]] && echo -n "$REVERSE"
-
       echo "${COMMITS[$i - 1]}"
    done
 
@@ -211,26 +234,26 @@ do
 
    case "$key" in
 
-      "$au")
+      "$au" | "$au_1")
          CP=$(( CP - 1 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
          [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
-	 tput cuu $TN
+	 tput cuu $(( TN + OFFSET ))
          [[ $SI != 1 ]] && tput ed # clear screen
          ;;
 
-      "$ad")
+      "$ad" | "$ad_1")
 	 CP=$(( CP + 1 ))
          [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1 
          [[ $CP == $(( SN + SI - 1)) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
-	 tput cuu $TN
+	 tput cuu $(( TN + OFFSET ))
          [[ $SI != 1 ]] && tput ed # clear screen
          [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
          ;;
 
       "$nl")
-	  tput cuu $TN
+	  tput cuu $(( TN + OFFSET ))
           print_diff 
          ;;
 

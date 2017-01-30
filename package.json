@@ -1,17 +1,17 @@
 {
-  "name": "log-so-handy",
-  "version": "1.0.3",
-  "description": "Convenient log for git",
+  "name": "git-recall",
+  "version": "1.1.1",
+  "description": "Simple and convenient Git tool to easily recall what you've done",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fakerr/log-so-handy.git"
+    "url": "https://github.com/Fakerr/git-recall.git"
   },
   "bin": {
-    "git-hlog": "./git-hlog"
+    "git-recall": "./git-recall"
   },
   "keywords": [
     "git",
@@ -20,5 +20,5 @@
   ],
   "author": "Walid Berrahal",
   "license": "MIT",
-  "homepage": "https://github.com/Fakerr/log-so-handy"
+  "homepage": "https://github.com/Fakerr/git-recall"
 }
