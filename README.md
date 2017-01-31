@@ -7,14 +7,14 @@
 ## Purpose
 
 `git-recall` is a simple tool that allows you to easily go through your commits and
-check what you or other contributors in your team did. It doesn't aim to be a replacement for the 
+check what you or other contributors in your team did. It doesn't aim to be a replacement for the
 `git log` command, but just to be a handy way to recall what you've done from your terminal.
 
 
 ## Usage
 
 ```sh
-$ git recall   [-a <author name>] 
+$ git recall   [-a <author name>]
 	           [-d <days-ago>]
                [-f]
                [-h]
@@ -29,7 +29,7 @@ $ git recall   [-a <author name>]
 
 ##### How to use:
 
-Once the commits are displayed, you can use either the `arrow keys` or `j/k` to switch between commits,
+Once the commits are displayed, you can use either the `arrow keys`, `j/k` or `C-n/C-p` to switch between commits,
 press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
 
 ##### Limitations:
