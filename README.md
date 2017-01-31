@@ -88,6 +88,9 @@ $ sudo make install
 - OS: Linux or OSX
 - Tools: git, less, sed
 
+##### Optional Requirements
+- For a better UX, it's recommended to have installed the `lesskey` program.
+
 ## Contribution
 Pull requests are welcome, along with any feedback or ideas.
 
