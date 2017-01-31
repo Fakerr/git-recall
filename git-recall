@@ -22,6 +22,7 @@ FETCH=false
 GIT_FORMAT=""
 GIT_LOG=""
 COMMITS=""
+LESSKEY=false
 VERSION="1.1.1"
 
 # Are we in a git repo?
@@ -89,10 +90,9 @@ else
   uncolored
 fi
 
-# Check if lesskey is correctly installed.
-if ! which lesskey &>/dev/null; then
-  echo "abort: the program lesskey is not installed. Make sure to install it before running git-recall" 1>&2
-  exit 1
+# Check if lesskey is installed.
+if command -v lesskey &> /dev/null; then
+    LESSKEY=true
 fi
 
 # Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
@@ -145,7 +145,9 @@ ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
-echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
+if [[ $LESSKEY = true ]]; then
+    echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
+fi
 
 ## Get commit's diff.
 function get_diff() {
@@ -162,7 +164,11 @@ function print_diff() {
     get_diff
 
     if [[ $(( TN + DIFF_LINES_NUMBER )) -ge $(( `tput lines` - 1 )) ]]; then
-	echo -e "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+	if [[ $LESSKEY = true ]]; then
+	    echo -e "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+	else 
+	    echo -e "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r
+	fi
     else 
 	stop=false
 	tput ed
@@ -258,7 +264,9 @@ do
 
 done
 
-rm $HOME/.lsh_less_keys_tmp # remove temporary less keybindings
+# remove temporary less keybindings
+[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp 
+
 tput cnorm # unhide cursor
 echo "$NORMAL" # normal colors
 

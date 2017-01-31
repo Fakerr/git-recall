@@ -86,7 +86,7 @@ $ sudo make install
 ```
 ## Requirements
 - OS: Linux or OSX
-- Tools: git, less, lesskey, sed
+- Tools: git, less, sed
 
 ## Contribution
 Pull requests are welcome, along with any feedback or ideas.
