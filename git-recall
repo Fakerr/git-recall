@@ -116,7 +116,7 @@ GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%a
 # Log command.
 GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
            --author \"$AUTHOR\"
-           --since \"$SINCE\" --abbrev-commit"
+           --since \"$SINCE\" --abbrev-commit --no-merges"
 
 # Change temporary the IFS to store GIT_LOG's output into an array.
 IFS=$'\n'
