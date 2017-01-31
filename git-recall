@@ -10,6 +10,7 @@ usage() {
     -a, --author            Author name.
     -f, --fetch             fetch commits.
     -h, --help              This message.
+    -l, --local             Only show commits that have not yet been pushed to the remote branch.
     --                      End of options.
 EOF
 }
@@ -24,6 +25,8 @@ GIT_LOG=""
 COMMITS=""
 LESSKEY=false
 VERSION="1.1.1"
+TEMPLATE="default"
+CURRENT_BRANCH=""
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
@@ -48,6 +51,9 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
       ;;
     -f | --fetch )
       FETCH=true
+      ;;
+    -l | --local )
+      TEMPLATE="local"
       ;;
     -h | --help )
       usage
@@ -113,10 +119,30 @@ fi
 # Log template.
 GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"
 
-# Log command.
-GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
-           --author \"$AUTHOR\"
-           --since \"$SINCE\" --abbrev-commit"
+# Get currently tracked branch
+function get_current_branch() {
+  if ! CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD); then
+    echo "abort" 1>&2
+    exit 1
+  fi
+}
+
+# Log command templates
+function set_log_command() {
+  if [ "$TEMPLATE" == "local" ]; then
+    get_current_branch
+    GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'
+                 --abbrev-commit
+                 origin/${CURRENT_BRANCH}..HEAD
+                 "
+  else
+    GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'
+                  --author \"$AUTHOR\"
+                  --since \"$SINCE\" --abbrev-commit"
+  fi
+}
+
+set_log_command
 
 # Change temporary the IFS to store GIT_LOG's output into an array.
 IFS=$'\n'

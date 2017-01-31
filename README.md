@@ -16,6 +16,7 @@ check what you or other contributors in your team did. It doesn't aim to be a re
 ```sh
 $ git recall   [-a <author name>] 
 	           [-d <days-ago>]
+               [-l]
                [-f]
                [-h]
 ```
@@ -24,6 +25,7 @@ $ git recall   [-a <author name>]
 
 - `-a`      - Restrict search for a specific user (use -a "all" for all users)
 - `-d`      - Display commits for the last n days
+- `-l`      - show commits that have not been pushed to the remote branch.
 - `-f`      - Fetch the latest changes
 - `-h`      - Show help screen
 
@@ -53,6 +55,9 @@ $ git recall -d 5 -a "Doge"
 
 $ git recall -d 5 -a "all"
 # The command will show commits of all contributors from 5 days ago.
+
+$ git recall -l
+# The command will show commits that are present on the local branch, but have not yet been pushed to the remote. 
 ```
 
 
