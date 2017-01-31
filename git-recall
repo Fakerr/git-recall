@@ -151,7 +151,12 @@ fi
 
 ## Get commit's diff.
 function get_diff() {
-    ELT="$(echo "${COMMITS[$CP-1]}" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
+    case "$OSTYPE" in
+      darwin*) SED_BIN="sed -E" ;;
+      *)       SED_BIN="sed -r" ;;
+    esac
+
+    ELT="$(echo "${COMMITS[$CP-1]}" | $SED_BIN "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
     DIFF_TIP=${ELT:0:7}
     DIFF_CMD="git show $DIFF_TIP --color=always"
     DIFF=$(eval ${DIFF_CMD} 2>/dev/null)
