@@ -130,13 +130,13 @@ TN=$(( $NI < $((SN -1)) ? $NI : $((SN -1)))) # Number of lines that we will disp
 OFFSET=0
 
 # Add +1 to OFFSET if a commit's length is bigger than the current terminal session's width. (This is to fix a redraw issue)
-for C in "${COMMITS[@]}"
-do
-    ELT="$(echo "$C" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
-    if [[ ${#ELT} -gt $CN ]]; then
-	OFFSET=$(( OFFSET + 1 ))
-    fi
-done
+#for C in "${COMMITS[@]}"
+#do
+#    ELT="$(echo "$C" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")" # remove colors escape codes
+#    if [[ ${#ELT} -gt $CN ]]; then
+#	OFFSET=$(( OFFSET + 1 ))
+#    fi
+#done
 
 # If there is no items, exit.
 if [[ $NI = 0 ]]; then
@@ -201,8 +201,8 @@ function print_diff() {
 		    ;;
 	    esac
 	done
-	[[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER + OFFSET )) && tput ed
-	[[ $END = true ]] && tput cuu 1
+	[[ $END = false ]] && tput rc  && tput ed #restore saved position and clear screen.
+	[[ $END = true ]] && tput cuu 1 #move cursor up one line.
     fi
 }
 
@@ -218,6 +218,7 @@ END=false # end while loop
 while ! $END
 do
 
+   tput sc
    for i in `seq $SI $(( $TN - $OFFSET + $SI -1 ))`
    do
       echo -n "$NORMAL"
@@ -239,28 +240,33 @@ do
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
          [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
-	 tput cuu $(( TN + OFFSET ))
-         [[ $SI != 1 ]] && tput ed # clear screen
+	 #tput cuu $(( TN ))
+	 tput rc
+	 tput ed
+         #[[ $SI != 1 ]] && tput ed # clear screen
          ;;
 
       "$ad" | "$ad_1")
 	 CP=$(( CP + 1 ))
          [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1 
          [[ $CP == $(( SN + SI - 1)) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
-	 tput cuu $(( TN + OFFSET ))
-         [[ $SI != 1 ]] && tput ed # clear screen
-         [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
+	 #tput cuu $(( TN ))
+	 tput rc
+	 tput ed
+         #[[ $SI != 1 ]] && tput ed # clear screen
+         #[[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
          ;;
 
       "$nl")
-	  tput cuu $(( TN + OFFSET ))
+	  #tput cuu $(( TN + OFFSET ))
+	  tput rc 
           print_diff 
          ;;
 
       "q")
          si=false
          END=true
-	 tput cuu 1
+	 tput cuu 1 #move cursor up one line. (remove extra line)
          ;;
 
       * )
