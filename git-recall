@@ -23,7 +23,7 @@ GIT_FORMAT=""
 GIT_LOG=""
 COMMITS=""
 LESSKEY=false
-VERSION="1.1.3"
+VERSION="1.1.4"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
@@ -170,9 +170,9 @@ function print_diff() {
 
     if [[ $(( TN + DIFF_LINES_NUMBER )) -ge $(( `tput lines` - 1 )) ]]; then
 	if [[ $LESSKEY = true ]]; then
-	    echo "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+	    echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
 	else 
-	    echo "$REVERSE ${COMMITS[$CP - 1]}\n\n $DIFF" | less -r
+	    echo "$DIFF" | less -r
 	fi
     else 
 	stop=false
