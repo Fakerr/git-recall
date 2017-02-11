@@ -68,7 +68,7 @@ function colored() {
   YELLOW=$(tput setaf 3)
   NORMAL=$(tput sgr0)
   REVERSE=$(tput rev)
-} 
+}
 
 # Uncolored output.
 function uncolored() {
@@ -95,7 +95,7 @@ if command -v lesskey &> /dev/null; then
     LESSKEY=true
 fi
 
-# Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
+# Set AUTHOR to current user if no param passed or display for all users if param equal to "all".
 if [[ ! -n $AUTHOR ]]; then
     AUTHOR=$(git config user.name 2>/dev/null)
 elif [[ $AUTHOR = "all" ]]; then
@@ -114,7 +114,7 @@ fi
 GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"
 
 # Log command.
-GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
+GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'
            --author \"$AUTHOR\"
            --since \"$SINCE\" --abbrev-commit"
 
@@ -137,14 +137,16 @@ if [[ $NI = 0 ]]; then
 fi
 
 # Set keys.
-au="`echo -e '\e[A'`" # arrow up
-au_1="k"              # arrow up
-ad="`echo -e '\e[B'`" # arrow down
-ad_1="j"              # arrow down
-ec="`echo -e '\e'`"   # escape
-nl="`echo -e '\n'`"   # newline
+au="`echo -e '\e[A'`"   # arrow up
+au_1="k"                # arrow up
+au_2="`echo -e '\020'`" # arrow up - (C-p : emacs previous line)
+ad="`echo -e '\e[B'`"   # arrow down
+ad_1="j"                # arrow down
+ad_2="`echo -e '\016'`" # arrow down - (C-n : emacs next line)
+ec="`echo -e '\e'`"     # escape
+nl="`echo -e '\n'`"     # newline
 
-# Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
+# Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)
 if [[ $LESSKEY = true ]]; then
     echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
 fi
@@ -163,9 +165,9 @@ function get_diff() {
     DIFF_LINES_NUMBER="$(echo "$DIFF" | wc -l)"
 }
 
-## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
+## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'.
 function print_diff() {
-    
+
     get_diff
 
     if [[ $(( TN + DIFF_LINES_NUMBER )) -ge $(( `tput lines` - 1 )) ]]; then
@@ -174,7 +176,7 @@ function print_diff() {
 	else 
 	    echo "$DIFF" | less -r
 	fi
-    else 
+    else
 	stop=false
 	tput ed
 	for i in `seq 1 $TN`
@@ -182,7 +184,7 @@ function print_diff() {
 	    echo -n "$NORMAL"
 	    [[ $CP == $i ]] && echo -n "$REVERSE"
 	    echo "${COMMITS[$i - 1]}"
-	
+
 	    if [[ $CP == $i ]]; then
 	        echo "$DIFF"
 	    fi
@@ -234,7 +236,7 @@ do
 
    case "$key" in
 
-      "$au" | "$au_1")
+      "$au" | "$au_1" | "$au_2")
          CP=$(( CP - 1 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 ))
          [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
@@ -243,9 +245,9 @@ do
          [[ $SI != 1 ]] && tput ed # clear screen
          ;;
 
-      "$ad" | "$ad_1")
+      "$ad" | "$ad_1" | "$ad_2")
 	 CP=$(( CP + 1 ))
-         [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1 
+         [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1
          [[ $CP == $(( SN + SI - 1)) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
 	 tput cuu $TN
          [[ $SI != 1 ]] && tput ed # clear screen
@@ -254,7 +256,7 @@ do
 
       "$nl")
 	  tput cuu $TN
-          print_diff 
+          print_diff
          ;;
 
       "q")
@@ -270,10 +272,9 @@ do
 done
 
 # remove temporary less keybindings
-[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp 
+[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp
 
 tput cnorm # unhide cursor
 echo "$NORMAL" # normal colors
 
 } >&2 # END capture
-
