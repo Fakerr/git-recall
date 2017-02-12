@@ -196,6 +196,7 @@ function print_diff() {
 	else 
 	    echo "$DIFF" | less -r
 	fi
+	tput ed # Clear screen
     else 
 	stop=false
 	tput ed
