@@ -25,7 +25,7 @@ COMMITS=""
 COMMITS_UNCOL=() # commits without colors
 LESSKEY=false
 SED_BIN="" # Sed option to use according OS.
-VERSION="1.1.4"
+VERSION="1.1.5"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
