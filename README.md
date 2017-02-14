@@ -30,7 +30,7 @@ $ git recall   [-a <author name>]
 ##### How to use:
 
 Once the commits are displayed, you can use either the `arrow keys` or `j/k` to switch between commits,
-press `TAB` to `expand/reduce` the commit's diff or `q` to quit.
+press `TAB` or `e` to `expand/reduce` the commit's diff or `q` to quit.
 
 ##### Limitations:
 
