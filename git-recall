@@ -168,6 +168,7 @@ ad="`echo -e '\e[B'`" # arrow down
 ad_1="j"              # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
+nl_1="e"              # expand
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
 if [[ $LESSKEY = true ]]; then
@@ -215,7 +216,7 @@ function print_diff() {
 	do
 	    read -sn 1 key
 	    case "$key" in
-		"$nl")
+		"$nl" | "$nl_1")
 		    stop=true
 		    ;;
 		"q")
@@ -313,7 +314,7 @@ do
          [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
          ;;
 
-      "$nl")
+      "$nl" | "$nl_1")
 	 [[  $TN == $NI ]] && tput cuu $(( TN + OFFSET_2 ))
 	 [[  $TN != $NI ]] && tput cuu $(( TN + EXT ))
          print_diff 
