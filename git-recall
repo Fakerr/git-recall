@@ -70,7 +70,7 @@ function colored() {
   YELLOW=$(tput setaf 3)
   NORMAL=$(tput sgr0)
   REVERSE=$(tput rev)
-} 
+}
 
 # Uncolored output.
 function uncolored() {
@@ -97,7 +97,7 @@ if command -v lesskey &> /dev/null; then
     LESSKEY=true
 fi
 
-# Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
+# Set AUTHOR to current user if no param passed or display for all users if param equal to "all".
 if [[ ! -n $AUTHOR ]]; then
     AUTHOR=$(git config user.name 2>/dev/null)
 elif [[ $AUTHOR = "all" ]]; then
@@ -116,7 +116,7 @@ fi
 GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"
 
 # Log command.
-GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
+GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'
            --author \"$AUTHOR\"
            --since \"$SINCE\" --abbrev-commit"
 
@@ -134,9 +134,9 @@ OFFSET=0 #Incremented by one each time a commit's length is higher than teminal 
 # If there is no items, exit.
 if [[ $NI = 0 ]]; then
     if [[ $AUTHOR = ".*" ]]; then
-	echo "${YELLOW}All contributors did nothing during this period.${NORMAL}" && exit 0
+        echo "${YELLOW}All contributors did nothing during this period.${NORMAL}" && exit 0
     else
-	echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
+        echo "${YELLOW}The contributor \"${AUTHOR}\" did nothing during this period.${NORMAL}" && exit 0
     fi
 fi
 
@@ -157,7 +157,7 @@ done
 for C in "${COMMITS_UNCOL[@]}"
 do
     if [[ ${#C} -gt $CN ]]; then
-	OFFSET=$(( OFFSET + 1 ))
+        OFFSET=$(( OFFSET + 1 ))
     fi
 done
 
@@ -169,7 +169,7 @@ ad_1="j"              # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
 
-# Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
+# Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)
 if [[ $LESSKEY = true ]]; then
     echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
 fi
@@ -185,47 +185,47 @@ function get_diff() {
     DIFF_LINES_NUMBER=$(( DIFF_LINES_NUMBER + off ))
 }
 
-## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
+## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'.
 function print_diff() {
-    
+
     get_diff
 
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
-	if [[ $LESSKEY = true ]]; then
-	    echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
-	else 
-	    echo "$DIFF" | less -r
-	fi
-	tput ed # Clear screen
-    else 
-	stop=false
-	tput ed
-	for i in `seq 1 $TN`
-	do
-	    echo -n "$NORMAL"
-	    [[ $CP == $i ]] && echo -n "$REVERSE"
-	    echo "${COMMITS[$i - 1]}"
-	
-	    if [[ $CP == $i ]]; then
-	        echo "$DIFF"
-	    fi
-	done
+        if [[ $LESSKEY = true ]]; then
+            echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+        else
+            echo "$DIFF" | less -r
+        fi
+        tput ed # Clear screen
+    else
+        stop=false
+        tput ed
+        for i in `seq 1 $TN`
+        do
+            echo -n "$NORMAL"
+            [[ $CP == $i ]] && echo -n "$REVERSE"
+            echo "${COMMITS[$i - 1]}"
 
-	while ! $stop
-	do
-	    read -sn 1 key
-	    case "$key" in
-		"$nl")
-		    stop=true
-		    ;;
-		"q")
-		    stop=true
-		    END=true
-		    ;;
-	    esac
-	done
-	[[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER + OFFSET )) && tput ed
-	[[ $END = true ]] && tput cuu 1
+            if [[ $CP == $i ]]; then
+                echo "$DIFF"
+            fi
+        done
+
+        while ! $stop
+        do
+            read -sn 1 key
+            case "$key" in
+            "$nl")
+                stop=true
+                ;;
+            "q")
+                stop=true
+                END=true
+                ;;
+            esac
+        done
+        [[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER + OFFSET )) && tput ed
+        [[ $END = true ]] && tput cuu 1
     fi
 }
 
@@ -235,13 +235,13 @@ function calculate_offset {
     index=$(( SI -1 ))
     while [[ $tmp -lt $SN ]]
     do
-    	el=${COMMITS_UNCOL[$index]}
-    	if [[ ${#el} -gt $CN ]] && [[ $CP -lt $((SN -1)) ]]; then
-    	    OFFSET_2=$(( OFFSET_2 + 1 ))
-    	    tmp=$(( tmp + 1 ))
-    	fi
-    	tmp=$(( tmp + 1 ))
-    	index=$(( index + 1 ))
+        el=${COMMITS_UNCOL[$index]}
+        if [[ ${#el} -gt $CN ]] && [[ $CP -lt $((SN -1)) ]]; then
+            OFFSET_2=$(( OFFSET_2 + 1 ))
+            tmp=$(( tmp + 1 ))
+        fi
+        tmp=$(( tmp + 1 ))
+        index=$(( index + 1 ))
     done
 }
 
@@ -256,83 +256,83 @@ EXT=0 # Used to extend the number of lines to display.
 ## Loops, reads inputs and prints commits until user presses 'q' to exit or TAB to show the diff.
 while ! $END
 do
- 
-   END_INDEX=0 # Index for the last item to display
 
-   # When the number of item is higher than screen's number of lines, OFFSET_2 is recalculated each time we select a new item
-   # Set last index to print. (based on OFFSET)
-   if [[  $TN == $NI ]]; then 
-       END_INDEX=$TN
-       OFFSET_2=$OFFSET
-   elif [[  $TN == $(( SN - 1 )) ]]; then
-       # Calculate new OFFSET.
-       if [[ $OFFSET != 0 ]]; then 
-	   [[ $CP -lt $((SN -1)) ]] && OFFSET_2=0
-	   EXT=1
-	   calculate_offset
-       fi
-       END_INDEX=$(( TN + SI -1 + EXT - OFFSET_2 ))
-   fi
+    END_INDEX=0 # Index for the last item to display
 
-   # Loop and echo commits
-   for i in `seq $SI $END_INDEX`
-   do
-      echo -n "$NORMAL"
-      [[ $CP == $i ]] && echo -n "$REVERSE"
-      echo "${COMMITS[$i - 1]}"
-   done
+    # When the number of item is higher than screen's number of lines, OFFSET_2 is recalculated each time we select a new item
+    # Set last index to print. (based on OFFSET)
+    if [[  $TN == $NI ]]; then
+        END_INDEX=$TN
+        OFFSET_2=$OFFSET
+    elif [[  $TN == $(( SN - 1 )) ]]; then
+        # Calculate new OFFSET.
+        if [[ $OFFSET != 0 ]]; then
+        [[ $CP -lt $((SN -1)) ]] && OFFSET_2=0
+        EXT=1
+        calculate_offset
+        fi
+        END_INDEX=$(( TN + SI -1 + EXT - OFFSET_2 ))
+    fi
 
-   read -sn 1 key
-   [[ "$key" == "$ec" ]] &&
-   {
-      read -sn 2 k2
-      key="$key$k2"
-   }
+    # Loop and echo commits
+    for i in `seq $SI $END_INDEX`
+    do
+        echo -n "$NORMAL"
+        [[ $CP == $i ]] && echo -n "$REVERSE"
+        echo "${COMMITS[$i - 1]}"
+    done
 
-   case "$key" in
+    read -sn 1 key
+    [[ "$key" == "$ec" ]] &&
+    {
+        read -sn 2 k2
+        key="$key$k2"
+    }
 
-      "$au" | "$au_1")
-         CP=$(( CP - 1 ))
-         [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
-         [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
-         [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
+    case "$key" in
 
-	 [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
-	 [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
-         [[ $SI != 1 ]] && tput ed # clear screen
-         ;;
+    "$au" | "$au_1")
+        CP=$(( CP - 1 ))
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
+        [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
 
-      "$ad" | "$ad_1")
-	 CP=$(( CP + 1 ))
-         [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1 
-         [[ $CP == $(( SN + SI - 1 + EXT - OFFSET_2 )) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
+        [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
+        [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
+        [[ $SI != 1 ]] && tput ed # clear screen
+        ;;
 
-	 [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
-	 [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
-         [[ $SI != 1 ]] && tput ed # clear screen
-         [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
-         ;;
+    "$ad" | "$ad_1")
+        CP=$(( CP + 1 ))
+        [[ $CP == $(( NI + 1 )) ]] && CP=1 && SI=1
+        [[ $CP == $(( SN + SI - 1 + EXT - OFFSET_2 )) ]] && [[ $TN == $(( SN - 1 )) ]] && SI=$(( SI + 1 ))
 
-      "$nl")
-	 [[  $TN == $NI ]] && tput cuu $(( TN + OFFSET_2 ))
-	 [[  $TN != $NI ]] && tput cuu $(( TN + EXT ))
-         print_diff 
-         ;;
+        [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
+        [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
+        [[ $SI != 1 ]] && tput ed # clear screen
+        [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
+        ;;
 
-      "q")
-         si=false
-         END=true
-	 tput cuu 1 #move cursor up one line. (remove extra line)
-         ;;
+    "$nl")
+        [[  $TN == $NI ]] && tput cuu $(( TN + OFFSET_2 ))
+        [[  $TN != $NI ]] && tput cuu $(( TN + EXT ))
+        print_diff
+        ;;
 
-      * )
-	 tput cuu $(( TN + OFFSET_2 ))
-   esac
+    "q")
+        si=false
+        END=true
+        tput cuu 1 #move cursor up one line. (remove extra line)
+        ;;
+
+    *)
+        tput cuu $(( TN + OFFSET_2 ))
+    esac
 
 done
 
 # remove temporary less keybindings
-[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp 
+[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp
 
 tput cnorm # unhide cursor
 echo "$NORMAL" # normal colors
