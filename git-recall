@@ -168,6 +168,8 @@ ad="`echo -e '\e[B'`" # arrow down
 ad_1="j"              # arrow down
 ec="`echo -e '\e'`"   # escape
 nl="`echo -e '\n'`"   # newline
+home="`echo -e '\e[H'`" # Home
+end="`echo -e '\e[F'`" # End
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)
 if [[ $LESSKEY = true ]]; then
@@ -288,6 +290,11 @@ do
         read -sn 2 k2
         key="$key$k2"
     }
+    [[ "$key" == "g" ]] &&
+    {
+       read -sn 1 k2
+       key="$key$k2"
+    }
 
     case "$key" in
 
@@ -311,6 +318,30 @@ do
         [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
         [[ $SI != 1 ]] && tput ed # clear screen
         [[ $SI = 1 ]] && [[ $CP = 1 ]] && tput ed # clear screen
+        ;;
+
+    "$home" | "gg")
+        CP=1
+        SI=1
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
+        [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
+
+        [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
+        [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
+        [[ $SI != 1 ]] && tput ed # clear screen
+        ;;
+
+    "$end" | "G")
+        CP=0
+        SI=0
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
+        [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
+        [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
+
+        [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
+        [[ $TN == $(( SN - 1 )) ]] && tput cuu $(( TN + EXT ))
+        [[ $SI != 1 ]] && tput ed # clear screen
         ;;
 
     "$nl")
