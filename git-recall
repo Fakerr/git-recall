@@ -10,6 +10,7 @@ usage() {
     -a, --author            Author name.
     -f, --fetch             fetch commits.
     -h, --help              This message.
+    -v, --version           Show version.
     --                      End of options.
 EOF
 }
@@ -25,7 +26,7 @@ COMMITS=""
 COMMITS_UNCOL=() # commits without colors
 LESSKEY=false
 SED_BIN="" # Sed option to use according OS.
-VERSION="1.1.5"
+VERSION="1.1.7"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
