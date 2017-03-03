@@ -26,7 +26,7 @@ COMMITS=""
 COMMITS_UNCOL=() # commits without colors
 LESSKEY=false
 SED_BIN="" # Sed option to use according OS.
-VERSION="1.1.7"
+VERSION="1.1.8"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
@@ -189,9 +189,7 @@ function get_diff() {
 
 ## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
 function print_diff() {
-    
-    get_diff
-
+    get_diff # get commit's diff
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
 	if [[ $LESSKEY = true ]]; then
 	    echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
@@ -212,7 +210,7 @@ function print_diff() {
 	        echo "$DIFF"
 	    fi
 	done
-
+	# Wait for user action.
 	while ! $stop
 	do
 	    read -sn 1 key
@@ -258,9 +256,7 @@ EXT=0 # Used to extend the number of lines to display.
 ## Loops, reads inputs and prints commits until user presses 'q' to exit or TAB to show the diff.
 while ! $END
 do
- 
    END_INDEX=0 # Index for the last item to display
-
    # When the number of item is higher than screen's number of lines, OFFSET_2 is recalculated each time we select a new item
    # Set last index to print. (based on OFFSET)
    if [[  $TN == $NI ]]; then 
