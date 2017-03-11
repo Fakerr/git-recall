@@ -26,7 +26,7 @@ COMMITS=""
 COMMITS_UNCOL=() # commits without colors
 LESSKEY=false
 SED_BIN="" # Sed option to use according OS.
-VERSION="1.1.9"
+VERSION="1.2.0"
 
 # Are we in a git repo?
 if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
@@ -292,8 +292,8 @@ do
 
       "$au" | "$au_1")
          CP=$(( CP - 1 ))
-         [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
-         [[ $CP == 0 ]] && [[ $SI=1 ]] && [[ $TN == $NI ]] && CP=$TN
+         [[ $CP == 0 ]] && [[ $SI == 1 ]] && [[ $TN == $(( SN - 1 )) ]] && CP=$NI && SI=$(( NI - SN + 2 + OFFSET_2 ))
+         [[ $CP == 0 ]] && [[ $SI == 1 ]] && [[ $TN == $NI ]] && CP=$TN
          [[ $CP == $(( SI - 1 )) ]] && [[ $SI != 1 ]] && SI=$(( SI - 1 ))
 
 	 [[ $TN != $(( SN - 1 )) ]] && tput cuu $(( TN + OFFSET_2 ))
