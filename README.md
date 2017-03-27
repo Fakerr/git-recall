@@ -15,7 +15,7 @@ check what you or other contributors in your team did. It doesn't aim to be a re
 
 ```sh
 $ git recall   [-a <author name>] 
-	           [-d <days-ago>]
+	       [-d <days-ago>]
                [-f]
                [-h]
 ```
