@@ -38,7 +38,7 @@ fi
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
     -v | --version )
-      echo $version
+      echo "$version"
       exit
       ;;
     -d | --date )
@@ -204,12 +204,9 @@ function print_diff() {
 	for i in `seq 1 $TN`
 	do
 	    echo -n "$NORMAL"
-	    [[ $CP == $i ]] && echo -n "$REVERSE"
+	    [[ $CP == "$i" ]] && echo -n "$REVERSE"
 	    echo "${COMMITS[$i - 1]}"
-	
-	    if [[ $CP == $i ]]; then
-	        echo "$DIFF"
-	    fi
+	    [[ $CP == "$i" ]] && echo "$DIFF"
 	done
 	# Wait for user action.
 	while ! $stop
