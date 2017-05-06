@@ -28,7 +28,6 @@ LESSKEY=false
 SED_BIN="" # Sed option to use according OS.
 VERSION="1.1.11"
 
-
 # Set keys.
 au="`echo -e '\e[A'`" # arrow up
 ad="`echo -e '\e[B'`" # arrow down
@@ -44,7 +43,6 @@ if [[ ! -d ".git" ]] && ! git rev-parse --git-dir &>/dev/null; then
   echo "abort: not a git repository." 1>&2
   exit 1
 fi
-
 
 # Parse options
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
@@ -76,7 +74,6 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
 done
 if [[ "$1" == "--" ]]; then shift; fi
 
-
 # Colored output.
 function colored() {
   GREEN=$(tput setaf 4)
@@ -93,7 +90,6 @@ function uncolored() {
   REVERSE=""
 }
 
-
 # Enable colors if supported by terminal.
 if [[ -t 1 ]] && [[ -n "$TERM" ]] && which tput &>/dev/null && tput colors &>/dev/null; then
   ncolors=$(tput colors)
@@ -106,12 +102,10 @@ else
   uncolored
 fi
 
-
 # Check if lesskey is installed.
 if command -v lesskey &> /dev/null; then
     LESSKEY=true
 fi
-
 
 # Set AUTHOR to current user if no param passed or display for all users if param equal to "all". 
 if [[ ! -n $AUTHOR ]]; then
@@ -119,7 +113,6 @@ if [[ ! -n $AUTHOR ]]; then
 elif [[ $AUTHOR = "all" ]]; then
     AUTHOR=".*"
 fi
-
 
 # Fetch changes before.
 if [[ $FETCH == true ]]; then
@@ -129,7 +122,6 @@ if [[ $FETCH == true ]]; then
     tput ed # clear screen
 fi
 
-
 # Log template.
 GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"
 
@@ -137,7 +129,6 @@ GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%a
 GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
            --author \"$AUTHOR\"
            --since \"$SINCE\" --abbrev-commit"
-
 
 # Change temporary the IFS to store GIT_LOG's output into an array.
 IFS=$'\n'
@@ -150,7 +141,6 @@ CN=$(tput cols) # Screen's number of columns.
 TN=$(( $NI < $((SN -1)) ? $NI : $((SN -1)))) # Number of lines that we will display.
 OFFSET=0 #Incremented by one each time a commit's length is higher than teminal width.
 
-
 # If there is no items, exit.
 if [[ $NI = 0 ]]; then
     if [[ $AUTHOR = ".*" ]]; then
@@ -160,13 +150,11 @@ if [[ $NI = 0 ]]; then
     fi
 fi
 
-
 # Set correct sed option according OS's type
 case "$OSTYPE" in
     darwin*) SED_BIN="sed -E" ;;
     *)       SED_BIN="sed -r" ;;
 esac
-
 
 # Create array with uncolred commits (removing escape sequences using sed)
 for elt in "${COMMITS[@]}"
@@ -183,12 +171,10 @@ do
     fi
 done
 
-
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
 if [[ $LESSKEY = true ]]; then
     echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
 fi
-
 
 ## Get commit's diff.
 function get_diff() {
@@ -201,7 +187,6 @@ function get_diff() {
     DIFF_LINES_NUMBER="$(echo "$DIFF" | wc -l)"
     DIFF_LINES_NUMBER=$(( DIFF_LINES_NUMBER + off ))
 }
-
 
 ## This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
 function print_diff() {
@@ -242,7 +227,6 @@ function print_diff() {
     fi
 }
 
-
 # Calculate OFFSET to avoid bad redraw.
 function calculate_offset {
     tmp=1
@@ -258,7 +242,6 @@ function calculate_offset {
     	index=$(( index + 1 ))
     done
 }
-
 
 { # capture stdout to stderr
 
