@@ -86,6 +86,7 @@ $ sudo make install
 ```
 ## Requirements
 - OS: Linux or OSX
+- Bash 4.3 or more
 - Tools: git, less, sed
 
 ##### Optional Requirements
