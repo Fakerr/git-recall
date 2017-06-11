@@ -7,15 +7,15 @@
 ## Purpose
 
 `git-recall` is a simple tool that allows you to easily go through your commits and
-check what you or other contributors in your team did. It doesn't aim to be a replacement for the 
+check what you or other contributors in your team did. It doesn't aim to be a replacement for the
 `git log` command, but just to be a convenient way to recall what you've done from your terminal.
 
 
 ## Usage
 
 ```sh
-$ git recall   [-a <author name>] 
-	       [-d <days-ago>]
+$ git recall   [-a <author name>]
+               [-d <days-ago>]
                [-f]
                [-h]
 ```
@@ -65,10 +65,9 @@ $ git recall -f
 
 ##### Without using tools
 
-```
 You can install it by simply copying the `git-recall` script into any existing path
-(e.g. /usr/local/bin) or create your own directory and add it to the 'PATH' variable.
-```
+(e.g. `/usr/local/bin`) or create your own directory and add it to the `PATH` variable.
+
 
 ##### Using NPM
 Use `npm` to install the project.
