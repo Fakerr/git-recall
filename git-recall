@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 # usage info
 usage() {
   cat <<EOF
@@ -248,6 +246,20 @@ function calculate_offset {
     done
 }
 
+# Reset changes made by this script before exiting
+cleanup_and_exit()
+{
+    # remove temporary less keybindings
+    [[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp
+
+    tput cnorm      # unhide cursor
+    echo "$NORMAL"  # normal colors
+    exit
+}
+
+# Catch a control-C interrupt and perform cleanup operations before exiting
+trap cleanup_and_exit INT
+
 { # capture stdout to stderr
 
 tput civis   # hide cursor.
@@ -325,11 +337,7 @@ do
     esac
 done
 
-# remove temporary less keybindings
-[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp 
-
-tput cnorm      # unhide cursor
-echo "$NORMAL"  # normal colors
+cleanup_and_exit
 
 } >&2 # END capture
 
