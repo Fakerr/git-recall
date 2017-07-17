@@ -191,15 +191,23 @@ function get_diff() {
     DIFF_LINES_NUMBER=$(( DIFF_LINES_NUMBER + off ))
 }
 
+cleanup_diff()
+{
+  clear_screen
+  cleanup_and_exit
+}
+
 # This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
 function print_diff() {
     get_diff
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
+  trap cleanup_diff INT
 	if [[ $LESSKEY = true ]]; then
-	    echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+    (echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp)
 	else 
-	    echo "$DIFF" | less -r
+    (echo "$DIFF" | less -r)
 	fi
+  trap cleanup_and_exit INT
 	clear_screen
     else 
 	stop=false
