@@ -26,7 +26,7 @@ SINCE="1 days ago"     # show logs for last day by default
 COMMITS_UNCOL=()       # commits without colors
 SED_CMD=""             # Sed command to use according OS.
 LESSKEY=false
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 # Set key bindings.
 au="`echo -e '\e[A'`" # arrow up
