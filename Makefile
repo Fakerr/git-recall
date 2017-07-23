@@ -1,5 +1,5 @@
-PREFIX = /usr/local
-BINPREFIX = "$(PREFIX)/bin"
+PREFIX ?= /usr/local
+BINPREFIX ?= "$(PREFIX)/bin"
 
 LIB=git-recall
 
