@@ -178,7 +178,7 @@ done
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
 if [[ $LESSKEY = true ]]; then
-    echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
+    echo "\t quit" | lesskey -o /tmp/lsh_less_keys_tmp -- - &> /dev/null
 fi
 
 # Get commit's diff.
@@ -198,7 +198,7 @@ function print_diff() {
     get_diff
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
 	if [[ $LESSKEY = true ]]; then
-	    echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp
+	    echo "$DIFF" | less -r -k /tmp/lsh_less_keys_tmp
 	else 
 	    echo "$DIFF" | less -r
 	fi
@@ -326,7 +326,7 @@ do
 done
 
 # remove temporary less keybindings
-[[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp 
+[[ $LESSKEY = true ]] && rm /tmp/lsh_less_keys_tmp 
 
 tput cnorm      # unhide cursor
 echo "$NORMAL"  # normal colors
