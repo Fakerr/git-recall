@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 
-
 # usage info
 usage() {
   cat <<EOF
