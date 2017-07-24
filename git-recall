@@ -24,7 +24,7 @@ SINCE="1 days ago"     # show logs for last day by default
 COMMITS_UNCOL=()       # commits without colors
 SED_CMD=""             # Sed command to use according OS.
 LESSKEY=false
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 # Set key bindings.
 au="`echo -e '\e[A'`" # arrow up
@@ -176,7 +176,7 @@ done
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
 if [[ $LESSKEY = true ]]; then
-    echo "\t quit" | lesskey -o $HOME/.lsh_less_keys_tmp -- - &> /dev/null
+    echo "\t quit" | lesskey -o /tmp/lsh_less_keys_tmp -- - &> /dev/null
 fi
 
 # Get commit's diff.
@@ -203,9 +203,9 @@ function print_diff() {
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
   trap cleanup_diff INT
 	if [[ $LESSKEY = true ]]; then
-    (echo "$DIFF" | less -r -k $HOME/.lsh_less_keys_tmp)
+	    echo "$DIFF" | less -r -k /tmp/lsh_less_keys_tmp
 	else 
-    (echo "$DIFF" | less -r)
+    echo "$DIFF" | less -r
 	fi
   trap cleanup_and_exit INT
 	clear_screen
@@ -258,7 +258,7 @@ function calculate_offset {
 cleanup_and_exit()
 {
     # remove temporary less keybindings
-    [[ $LESSKEY = true ]] && rm $HOME/.lsh_less_keys_tmp
+    [[ $LESSKEY = true ]] && rm /tmp/lsh_less_keys_tmp
 
     tput cnorm      # unhide cursor
     echo "$NORMAL"  # normal colors
