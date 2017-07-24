@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 # usage info
 usage() {
   cat <<EOF
@@ -205,7 +206,7 @@ function print_diff() {
 	if [[ $LESSKEY = true ]]; then
 	    echo "$DIFF" | less -r -k /tmp/lsh_less_keys_tmp
 	else 
-    echo "$DIFF" | less -r
+	    echo "$DIFF" | less -r
 	fi
   trap cleanup_and_exit INT
 	clear_screen
