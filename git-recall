@@ -263,8 +263,12 @@ cleanup_and_exit()
 
     tput cnorm      # unhide cursor
     echo "$NORMAL"  # normal colors
+    stty "$orig_stty" > /dev/null 2>&1
     exit
 }
+
+# Store original terminal settings
+orig_stty=$(stty -g)
 
 # Catch a control-C interrupt and perform cleanup operations before exiting
 trap cleanup_and_exit INT
