@@ -202,13 +202,13 @@ cleanup_diff()
 function print_diff() {
     get_diff
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
-  trap cleanup_diff INT
+	trap - INT
 	if [[ $LESSKEY = true ]]; then
 	    echo "$DIFF" | less -r -k /tmp/lsh_less_keys_tmp
 	else 
 	    echo "$DIFF" | less -r
 	fi
-  trap cleanup_and_exit INT
+	trap cleanup_and_exit INT
 	clear_screen
     else 
 	stop=false
