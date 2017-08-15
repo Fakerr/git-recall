@@ -16,6 +16,7 @@ EOF
 }
 
 # Global variables
+orig_stty=$(stty -g)   # Store original terminal settings
 AUTHOR=""
 FETCH=false
 GIT_FORMAT=""
@@ -192,12 +193,6 @@ function get_diff() {
     DIFF_LINES_NUMBER=$(( DIFF_LINES_NUMBER + off ))
 }
 
-cleanup_diff()
-{
-  clear_screen
-  cleanup_and_exit
-}
-
 # This function will print the diff according the commit's tip. If the diff is too long, the result will be displayed using 'less'. 
 function print_diff() {
     get_diff
@@ -235,7 +230,6 @@ function print_diff() {
 	    esac
 	done
 	[[ $END = false ]] && tput cuu $(( TN + DIFF_LINES_NUMBER + OFFSET )) && clear_screen
-	[[ $END = true ]] && tput cuu 1
     fi
 }
 
@@ -256,19 +250,16 @@ function calculate_offset {
 }
 
 # Reset changes made by this script before exiting
-cleanup_and_exit()
-{
+function cleanup_and_exit() {
     # remove temporary less keybindings
     [[ $LESSKEY = true ]] && rm /tmp/lsh_less_keys_tmp
 
+    tput cuu 1      # move cursor up one line. (remove extra line)
     tput cnorm      # unhide cursor
     echo "$NORMAL"  # normal colors
     stty "$orig_stty" > /dev/null 2>&1
     exit
 }
-
-# Store original terminal settings
-orig_stty=$(stty -g)
 
 # Catch a control-C interrupt and perform cleanup operations before exiting
 trap cleanup_and_exit INT
@@ -343,7 +334,6 @@ do
 	"q")
             si=false
             END=true
-   	    tput cuu 1 #move cursor up one line. (remove extra line)
             ;;
 	* )
    	    tput cuu $(( TN + OFFSET_2 ))
