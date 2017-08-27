@@ -18,6 +18,7 @@ $ git recall   [-a <author name>]
                [-d <days-ago>]
                [-f]
                [-h]
+               [-v]
 ```
 
 ##### Options description:
@@ -26,6 +27,7 @@ $ git recall   [-a <author name>]
 - `-d`      - Display commits for the last n days
 - `-f`      - Fetch the latest changes
 - `-h`      - Show help screen
+- `-v`      - Show version
 
 ##### How to use:
 
