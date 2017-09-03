@@ -16,6 +16,7 @@ check what you or other contributors in your team did. It doesn't aim to be a re
 ```sh
 $ git recall   [-a <author name>]
                [-d <days-ago>]
+               [-b <branch name>]
                [-f]
                [-h]
                [-v]
@@ -25,6 +26,7 @@ $ git recall   [-a <author name>]
 
 - `-a`      - Restrict search for a specific user (use -a "all" for all users)
 - `-d`      - Display commits for the last n days
+- `-b`      - Specify branch to display commits from
 - `-f`      - Fetch the latest changes
 - `-h`      - Show help screen
 - `-v`      - Show version
