@@ -8,6 +8,7 @@ usage() {
   Options:
     -d, --date              Show logs for last n days.
     -a, --author            Author name.
+    -b, --branch            Specify branch to display commits from.
     -f, --fetch             fetch commits.
     -h, --help              This message.
     -v, --version           Show version.
@@ -27,6 +28,7 @@ COMMITS_UNCOL=()       # commits without colors
 SED_CMD=""             # Sed command to use according OS.
 LESSKEY=false
 VERSION="1.2.2"
+BRANCH=""
 
 # Set key bindings.
 au="`echo -e '\e[A'`" # arrow up
@@ -87,6 +89,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
 	    usage
 	    exit
 	    ;;
+    -b | --branch )
+        BRANCH="$2"
+        shift
+        ;;
 	* )
 	    echo "abort: unknown argument" 1>&2
 	    exit 1
@@ -128,7 +134,7 @@ GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%a
 # Log command.
 GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
            --author \"$AUTHOR\"
-           --since \"$SINCE\" --abbrev-commit --no-merges"
+           --since \"$SINCE\" --abbrev-commit --no-merges $BRANCH"
 
 # Change temporary the IFS to store GIT_LOG's output into an array.
 IFS=$'\n'
