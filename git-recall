@@ -89,10 +89,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
 	    usage
 	    exit
 	    ;;
-    -b | --branch )
-        BRANCH="$2"
-        shift
-        ;;
+	-b | --branch )
+            BRANCH="$2"
+            shift
+            ;;
 	* )
 	    echo "abort: unknown argument" 1>&2
 	    exit 1
