@@ -28,7 +28,7 @@ SINCE="1 days ago"     # show logs for last day by default
 COMMITS_UNCOL=()       # commits without colors
 SED_CMD=""             # Sed command to use according OS.
 LESSKEY=false
-VERSION="1.2.3"
+VERSION="1.2.4"
 BRANCH=""
 SEARCH_PATH=""
 
