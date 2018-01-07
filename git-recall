@@ -9,6 +9,7 @@ usage() {
     -d, --date              Show logs for last n days.
     -a, --author            Author name.
     -b, --branch            Specify branch to display commits from.
+    -p  --path              Specify path or filename to display commits from.
     -f, --fetch             fetch commits.
     -h, --help              This message.
     -v, --version           Show version.
@@ -29,6 +30,7 @@ SED_CMD=""             # Sed command to use according OS.
 LESSKEY=false
 VERSION="1.2.3"
 BRANCH=""
+SEARCH_PATH=""
 
 # Set key bindings.
 au="`echo -e '\e[A'`" # arrow up
@@ -93,6 +95,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
             BRANCH="$2"
             shift
             ;;
+        -p | --path )
+            SEARCH_PATH="$2"
+            shift
+            ;;
 	* )
 	    echo "abort: unknown argument" 1>&2
 	    exit 1
@@ -134,7 +140,7 @@ GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%a
 # Log command.
 GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
            --author \"$AUTHOR\"
-           --since \"$SINCE\" --abbrev-commit --no-merges $BRANCH"
+           --since \"$SINCE\" --abbrev-commit --no-merges $BRANCH $SEARCH_PATH"
 
 # Change temporary the IFS to store GIT_LOG's output into an array.
 IFS=$'\n'
@@ -191,7 +197,7 @@ fi
 function get_diff() {
     ELT="$(echo "${COMMITS_UNCOL[$CP-1]}")"
     DIFF_TIP=${ELT:0:7}
-    DIFF_CMD="git show $DIFF_TIP --color=always"
+    DIFF_CMD="git show $DIFF_TIP --color=always $SEARCH_PATH"
     DIFF=$(eval ${DIFF_CMD} 2>/dev/null)
     tmp_diff="$(echo "$DIFF" | $SED_CMD)"
     off=$(echo "$tmp_diff" | grep -c ".\{$CN\}") # Number of lines in the diff that are longer than terminal width.
