@@ -74,6 +74,7 @@ $ git recall -f
 You can install it by simply copying the `git-recall` script into any existing path
 (e.g. `/usr/local/bin`) or create your own directory and add it to the `PATH` variable.
 
+Make sure to run `chmod +x /usr/local/bin/git-recall` or the directory in which you copied it to. 
 
 ##### Using NPM
 Use `npm` to install the project.
