@@ -7,7 +7,7 @@ usage() {
   Usage: git recall [options]
   Options:
     -d, --date              Show logs for last n days.
-    -a, --author            Author name.
+    -a, --author            Author name (use -a "all" for all users).
     -b, --branch            Specify branch to display commits from.
     -p  --path              Specify path or filename to display commits from.
     -f, --fetch             fetch commits.
